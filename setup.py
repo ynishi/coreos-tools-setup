@@ -25,8 +25,9 @@ if 'DC_OS' in os.environ and 'DC_MACHINE' in os.environ:
     url = URL_tmpl.format(gr.title, dc)
     res = requests.get(url, stream=True)
     if res.status_code == 200:
-        with open(os.path.join(p, 'docker-compose'), 'wb') as file:
+        dc_fullpath = os.path.join(p, 'docker-compose')
+        with open(dc_fullpath, 'wb') as file:
             res.raw.decode_content = True
             shutil.copyfileobj(res.raw, file)
-        os.chmod("docker-compose", 755)
-        subprocess.run([os.path.join(p, "docker-compose"), "--version"])
+        os.chmod(dc_fullpath, 755)
+        subprocess.run([dc_fullpath, "--version"])
